@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+  frontend:
+    build:
+      args:
+        user: www
+        uid: 1000
+      context: ./
+      dockerfile: ./.docker/Dockerfile
+    image: frontend
+    container_name: frontend
+    restart: unless-stopped
+    working_dir: /var/www/app
+    volumes:
+      - ./:/var/www/app
+      - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - app-network
+    environment:
+      - PHP_IDE_CONFIG=serverName=Docker
+  backend:
+    build:
+      args:
+        user: www
+        uid: 1000
+      context: ./
+      dockerfile: ./.docker/Dockerfile
+    image: backend
+    container_name: backend
+    restart: unless-stopped
+    working_dir: /var/www/app
+    ports:
+      - "20080:20080"
+    volumes:
+      - ./:/var/www/app
+      - ./.docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./.docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+    networks:
+      - app-network
+    environment:
+      - PHP_IDE_CONFIG=serverName=Docker
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: reviews
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "8080:80"
+    volumes:
+      - ./:/var/www/app
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
