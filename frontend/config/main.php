@@ -46,4 +46,6 @@ return [
         */
     ],
     'params' => $params,
+    'layout'=>'layout',
+    'defaultRoute'=>'main-page/index'
 ];
