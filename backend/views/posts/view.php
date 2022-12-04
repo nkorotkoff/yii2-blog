@@ -32,10 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'img',
-            'category_id',
+            ['attribute'=>'Category',
+                'value'=>$model->categories->title],
             'text:ntext',
             'created_at',
             'user_id',
+            ['attribute'=>'hashtags',
+                'value'=>function($model){
+                        $value = '';
+                        foreach ($model->HashtagsShow as $hashtag){
+                            $value = $value .' ' . $hashtag->name;
+                        }
+                        return $value;
+                }
+                ],
             'views',
             'likes',
         ],

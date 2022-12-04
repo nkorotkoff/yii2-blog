@@ -19,6 +19,7 @@ use Yii;
  */
 class Posts extends \yii\db\ActiveRecord
 {
+    public $HashtagsShow;
     /**
      * {@inheritdoc}
      */

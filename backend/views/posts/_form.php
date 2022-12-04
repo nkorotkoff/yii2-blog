@@ -27,7 +27,14 @@ use yii\widgets\ActiveForm;
         <div class="help-block"></div>
     </div>
     <div class="d-flex mt-2 hashtags__wrapper mb-3">
-
+        <?php if(isset($model->hashtags)): ?>
+            <?php foreach ($model->hashtags as $hashtag):?>
+            <div class="inputWrapper">
+                <input class="form__hastags" name="hashtags[]" value="<?=$hashtag->name ?>">
+                <span class="close">×</span>
+            </div>
+            <?php endforeach;?>
+        <?php endif;?>
     </div>
     <?= $form->field($model, 'text')->textarea(['rows' => 6,]) ?>
     <?= $form->field($model, 'img')->fileInput(['class'=>'m-3']) ?>
@@ -49,6 +56,14 @@ input = document.querySelector(".control");
 container = document.querySelector(".hashtags__wrapper");
 hashtagArray = [];
 
+let deleteTags = document.querySelectorAll(".close");
+    let deleteInputs = document.querySelectorAll(".inputWrapper");
+    for (let i = 0; i < deleteTags.length; i++) {
+      deleteTags[i].addEventListener("click", () => {
+        container.removeChild(deleteInputs[i]);
+      });
+    }
+
 add__hashtag.addEventListener("click", () => {
   if (event.which == 13 || input.value.length > 0) {
     var wrapper = document.createElement("div");
@@ -66,14 +81,14 @@ add__hashtag.addEventListener("click", () => {
 
     container.appendChild(wrapper);
     input.value = '';
-    console.log(input);
-    let deleteTags = document.querySelectorAll(".close");
+let deleteTags = document.querySelectorAll(".close");
     let deleteInputs = document.querySelectorAll(".inputWrapper");
     for (let i = 0; i < deleteTags.length; i++) {
       deleteTags[i].addEventListener("click", () => {
         container.removeChild(deleteInputs[i]);
       });
     }
+    
   }
 });
 JS;

@@ -161,6 +161,8 @@ class PostsController extends Controller
     protected function findModel($id)
     {
         if (($model = Posts::findOne(['id' => $id])) !== null) {
+            $model->HashtagsShow =$model->hashtags;
+//            var_dump($model->HashtagsShow );
             return $model;
         }
 
