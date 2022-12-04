@@ -73,5 +73,11 @@ class Posts extends \yii\db\ActiveRecord
         $this->created_at = date("Ymd");
         return self::save();
     }
+    public function getCategories(){
+        return $this->hasOne(Category::class,['id'=>'category_id']);
+    }
+    public function getHashtags(){
+        return $this->hasMany(Hashtags::class,['id'=>'hashtag_id'])->viaTable('hashtag_post',['post_id'=>'id']);
+    }
 
 }

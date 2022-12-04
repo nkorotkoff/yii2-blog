@@ -3,8 +3,11 @@
 namespace backend\controllers;
 
 use common\models\Category;
+use common\models\Hashtags;
 use common\models\Posts;
 use backend\models\Posts as PostsSearch;
+use Yii;
+use yii\base\BaseObject;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -86,9 +89,20 @@ class PostsController extends Controller
             if ($model->load($this->request->post())) {
               $model->img =UploadedFile::getInstance($model,'img');
              $model->savePost();
+
+//             $hashtags->create($model, );
+             foreach (Yii::$app->request->post('hashtags') as $hashtag){
+                 $hashtags = new Hashtags();
+                 if($hashtags::find()->where(['name'=>$hashtag])->one()){
+                   $hashtags =  $hashtags::find()->where(['name'=>$hashtag])->one();
+                 }else{
+                     $hashtags ->name = $hashtag;
+                     $hashtags->save();
+                 }
+
+                 $model->link('hashtags',$hashtags);
+             }
                     return $this->redirect(['view', 'id' => $model->id]);
-
-
             }
         } else {
             $model->loadDefaultValues();
@@ -116,9 +130,10 @@ class PostsController extends Controller
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
+        $categories = Category::find()->asArray()->all();
         return $this->render('update', [
             'model' => $model,
+            'categories'=>$categories
         ]);
     }
 
