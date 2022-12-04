@@ -2,11 +2,14 @@
 
 namespace backend\controllers;
 
+use common\models\Category;
 use common\models\Posts;
 use backend\models\Posts as PostsSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * PostsController implements the CRUD actions for Posts model.
@@ -25,6 +28,16 @@ class PostsController extends Controller
                     'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
+                    ],
+                ],
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'allow' => true,
+                            'roles' => ['@'],
+
+                        ],
                     ],
                 ],
             ]
@@ -61,8 +74,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Creates a new Posts model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+
      * @return string|\yii\web\Response
      */
     public function actionCreate()
@@ -70,16 +82,24 @@ class PostsController extends Controller
         $model = new Posts();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+//            var_dump($dsd = $this->request->isPost);
+            if ($model->load($this->request->post())) {
+              $model->img =UploadedFile::getInstance($model,'img');
+             $model->savePost();
+                    return $this->redirect(['view', 'id' => $model->id]);
+
+
             }
         } else {
             $model->loadDefaultValues();
         }
+        $categories = Category::find()->asArray()->all();
 
         return $this->render('create', [
             'model' => $model,
+            'categories'=>$categories
         ]);
+
     }
 
     /**

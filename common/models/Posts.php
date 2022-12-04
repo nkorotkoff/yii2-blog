@@ -33,11 +33,12 @@ class Posts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'img', 'category_id', 'text', 'created_at', 'user_id'], 'required'],
-            [['category_id', 'created_at', 'user_id', 'views', 'likes'], 'integer'],
+            [['title', 'category_id', 'text', 'created_at', 'user_id'], 'required'],
+            [[ 'created_at', 'user_id', 'views', 'likes'], 'integer'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],
-            [['img'],'image','skipOnEmpty' => false, 'extensions' => 'png, jpg, jpeg']
+            [['img'],'image','skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
+            ['category_id','safe']
         ];
     }
 
@@ -58,4 +59,19 @@ class Posts extends \yii\db\ActiveRecord
             'likes' => 'Likes',
         ];
     }
+    public function upload()
+    {
+
+        $name = Yii::$app->security->generateRandomString(8) ;
+        $this->img->saveAs(Yii::getAlias('@uploadedfilesdir/') . $name. '.' . $this->img->extension);
+        $this->img = $name. '.' . $this->img->extension;
+    }
+    public function savePost(){
+       $this->upload();
+        $this->category_id = Category::findOne($this->category_id)->id;
+        $this->user_id = \Yii::$app->user->getId();
+        $this->created_at = date("Ymd");
+        return self::save();
+    }
+
 }

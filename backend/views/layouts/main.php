@@ -36,6 +36,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label'=>'Posts','url'=>['posts/index']],
+        ['label'=>'Category','url'=>['category/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
@@ -74,7 +76,7 @@ AppAsset::register($this);
     <div class="container">
         <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
         <p class="float-end"><?= Yii::powered() ;
-             var_dump(Yii::$app->user->getId());
+
             ?></p>
     </div>
 </footer>

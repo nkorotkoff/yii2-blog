@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -14,10 +15,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <?= $form->field($model, 'category_id')->dropDownList([ //Active drop down list is more easy
+      'Choose Category'=>  ArrayHelper::map($categories, 'id','title'),
+
+    ])->label('Categories') ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
-    <?= $form->field($model, 'img')->fileInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'img')->fileInput() ?>
 
 
     <div class="form-group">
