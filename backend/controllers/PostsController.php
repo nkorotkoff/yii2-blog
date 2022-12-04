@@ -85,12 +85,11 @@ class PostsController extends Controller
         $model = new Posts();
 
         if ($this->request->isPost) {
-//            var_dump($dsd = $this->request->isPost);
+
             if ($model->load($this->request->post())) {
               $model->img =UploadedFile::getInstance($model,'img');
              $model->savePost();
 
-//             $hashtags->create($model, );
              foreach (Yii::$app->request->post('hashtags') as $hashtag){
                  $hashtags = new Hashtags();
                  if($hashtags::find()->where(['name'=>$hashtag])->one()){
@@ -127,7 +126,37 @@ class PostsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            if($model->img !== '' && $model->img !== null){
+                $model->img =UploadedFile::getInstance($model,'img');
+            }
+
+            $model->savePost();
+//            var_dump($model);
+            $hashtags = Yii::$app->request->post('hashtags') ;
+
+            foreach ($model->hashtags as $hashtag){
+
+                if(!in_array($hashtag->name,$hashtags)){
+//                    var_dump($hashtags);
+                    $model->unlink('hashtags',$hashtag);
+                }
+            }
+
+            foreach ($hashtags as $hashtag){
+                $hashtags = new Hashtags();
+                if($hashtags::find()->where(['name'=>$hashtag])->one() && !$model->getHashtags()->where(['=','name',$hashtag])->one()){
+                    $hashtags =  $hashtags::find()->where(['name'=>$hashtag])->one();
+                    $model->link('hashtags',$hashtags);
+                }elseif(!$model->getHashtags()->where(['=','name',$hashtag])->one()){
+                    $hashtags ->name = $hashtag;
+                    $hashtags->save();
+                    $model->link('hashtags',$hashtags);
+                }
+
+
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
         $categories = Category::find()->asArray()->all();
@@ -162,7 +191,6 @@ class PostsController extends Controller
     {
         if (($model = Posts::findOne(['id' => $id])) !== null) {
             $model->HashtagsShow =$model->hashtags;
-//            var_dump($model->HashtagsShow );
             return $model;
         }
 

@@ -37,7 +37,7 @@ use yii\widgets\ActiveForm;
         <?php endif;?>
     </div>
     <?= $form->field($model, 'text')->textarea(['rows' => 6,]) ?>
-    <?= $form->field($model, 'img')->fileInput(['class'=>'m-3']) ?>
+    <?= $form->field($model, 'img')->fileInput(['class'=>'m-3',]) ?>
 
 
     <div class="form-group">

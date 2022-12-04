@@ -68,7 +68,12 @@ class Posts extends \yii\db\ActiveRecord
         $this->img = $name. '.' . $this->img->extension;
     }
     public function savePost(){
-       $this->upload();
+        if($this->img !== '' && $this->img !== null){
+            $this->upload();
+        }
+
+
+
         $this->category_id = Category::findOne($this->category_id)->id;
         $this->user_id = \Yii::$app->user->getId();
         $this->created_at = date("Ymd");

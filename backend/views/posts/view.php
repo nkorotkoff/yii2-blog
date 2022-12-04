@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use backend\assets\ImgAsset;
+$backend = ImgAsset::register($this);
 /** @var yii\web\View $this */
 /** @var common\models\Posts $model */
 
@@ -25,13 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             'id',
             'title',
-            'img',
+            ['attribute'=>'img','value'=>$backend->baseUrl . '/' . $model->img,
+                'format' => ['image',['width'=>'100','height'=>'100']]],
             ['attribute'=>'Category',
                 'value'=>$model->categories->title],
             'text:ntext',
