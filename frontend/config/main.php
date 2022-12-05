@@ -9,7 +9,13 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['debug'],
+//    'modules' => [
+//        'debug' => [
+//            'class' => 'yii\debug\Module',
+//            'allowedIPs' => ['*']
+//        ],
+//    ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -47,5 +53,7 @@ return [
     ],
     'params' => $params,
     'layout'=>'layout',
-    'defaultRoute'=>'main-page/index'
+    'defaultRoute'=>'main-page/index',
+
+
 ];

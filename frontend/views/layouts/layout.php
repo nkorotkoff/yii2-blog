@@ -1,5 +1,7 @@
 <?php
 
+
+$categories = $this->params['categories'];
 use frontend\assets\AppAsset;
 
 AppAsset::register($this);
@@ -86,38 +88,16 @@ AppAsset::register($this);
 
 
                         <div class="single-sidebar-widget post-category-widget">
-                            <h4 class="single-sidebar-widget__title">Catgory</h4>
+                            <h4 class="single-sidebar-widget__title">Categories</h4>
                             <ul class="cat-list mt-20">
+                                <?php foreach ($categories as $category): ?>
                                 <li>
                                     <a href="#" class="d-flex justify-content-between">
-                                        <p>Technology</p>
-                                        <p>(03)</p>
+                                        <p><?=$category->title?></p>
+                                        <p>(<?= $category->getPosts()->count()?>)</p>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Software</p>
-                                        <p>(09)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Lifestyle</p>
-                                        <p>(12)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Shopping</p>
-                                        <p>(02)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Food</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
+                                <?php endforeach;?>
                             </ul>
                         </div>
 
@@ -172,7 +152,7 @@ AppAsset::register($this);
                         </div>
 
                         <div class="single-sidebar-widget tag_cloud_widget">
-                            <h4 class="single-sidebar-widget__title">Popular Post</h4>
+                            <h4 class="single-sidebar-widget__title">Popular Tags</h4>
                             <ul class="list">
                                 <li>
                                     <a href="#">project</a>

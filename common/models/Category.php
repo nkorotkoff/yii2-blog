@@ -46,4 +46,7 @@ class Category extends \yii\db\ActiveRecord
     public static function findAllCategories(){
         return self::find()->all();
     }
+    public function getPosts(){
+        return $this->hasMany(Posts::class,['category_id'=>'id']);
+    }
 }

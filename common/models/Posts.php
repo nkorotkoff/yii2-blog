@@ -70,6 +70,9 @@ class Posts extends \yii\db\ActiveRecord
     public function savePost(){
         if($this->img !== '' && $this->img !== null){
             $this->upload();
+        }else{
+            $this->img = self::findOne($this->id)->img;
+//            var_dump($this->img);
         }
 
 
@@ -84,6 +87,33 @@ class Posts extends \yii\db\ActiveRecord
     }
     public function getHashtags(){
         return $this->hasMany(Hashtags::class,['id'=>'hashtag_id'])->viaTable('hashtag_post',['post_id'=>'id']);
+    }
+    public function getUser(){
+        return $this->hasOne(User::class,['id'=>'user_id']);
+    }
+    public function incrementPost(){
+        $this->views = $this->views +1;
+        $this->save();
+    }
+
+   public function subword($l = 700)
+    {
+        $content = $this->text;
+        if(strlen($content) > $l)
+        {
+
+            $content = str_split($content);
+            while(ord($content[$l]) != 32)
+            {
+                --$l;
+            }
+
+            $content = array_slice($content,0,$l);
+            return implode("",$content)."...";
+        }
+        return $this->text;
+
+
     }
 
 }

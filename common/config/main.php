@@ -11,4 +11,11 @@ return [
             'class' => \yii\caching\FileCache::class,
         ],
     ],
+    'modules' => [
+        'debug' => [
+            'class' => 'yii\debug\Module',
+            'allowedIPs' => ['*']
+        ],
+    ],
+
 ];

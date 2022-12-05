@@ -32,8 +32,8 @@ class m221203_195801_comments extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'text'=>$this->text()->notNull(),
-            'replyto' =>$this->integer()->null(),
-            'post_id' => $this->integer()->notNull()
+            'post_id' => $this->integer()->notNull(),
+            'created_at'=>$this->integer()->notNull(),
         ]);
     }
 
