@@ -91,6 +91,9 @@ class Posts extends \yii\db\ActiveRecord
     public function getUser(){
         return $this->hasOne(User::class,['id'=>'user_id']);
     }
+    public function getComments(){
+        return $this->hasMany(Comments::class,['post_id'=>'id']);
+    }
     public function incrementPost(){
         $this->views = $this->views +1;
         $this->save();
@@ -114,6 +117,20 @@ class Posts extends \yii\db\ActiveRecord
         return $this->text;
 
 
+    }
+    public function checkLike(){
+        $session = Yii::$app->session;
+        $session->open();
+//      $alo =  $session->get('vcbcv');
+//        var_dump($alo);
+
+            if($session->get($this->title)){
+                $session->close();
+                return 'fa-solid';
+            }
+
+        $session->close();
+        return 'fa-regular';
     }
 
 }

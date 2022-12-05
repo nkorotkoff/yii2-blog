@@ -31,13 +31,13 @@ $frontend = ImgAsset::register($this);
         <div class="thumb">
             <img class="img-fluid" src="<?=$frontend->baseUrl . '/' . $post->img?>" width="70%" alt="">
             <ul class="thumb-info">
-                <li><a href="#"><i class="ti-user"></i><?= $post->user->username ?></a></li>
-                <li><a href="#"><i class="ti-notepad"></i><?=date("F j, Y",strtotime($post->created_at)) ?></a></li>
-                <li><a href="#"><i class="ti-themify-favicon"></i>2 Comments</a></li>
+                <li><i class="ti-user"></i><?= $post->user->username ?></li>
+                <li><i class="ti-notepad"></i><?=date("F j, Y",strtotime($post->created_at)) ?></li>
+                <li><i class="ti-themify-favicon"></i><?= $post->getComments()->count() ?> Comments</li>
             </ul>
         </div>
         <div class="details mt-20">
-            <a href="blog-single.html">
+            <a href="<?=Url::toRoute(['main-page/post','id'=>$post->id]) ?>">
                 <h3><?=$post->title ?>.</h3>
             </a>
             <p class="tag-list-inline">Tags: <?php foreach ($post->hashtags as $hashtag): ?><a href="#"><?=$hashtag->name ?></a> <?php endforeach;?></p>

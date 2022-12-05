@@ -33,7 +33,7 @@ class m221203_195801_comments extends Migration
             'name' => $this->string()->notNull(),
             'text'=>$this->text()->notNull(),
             'post_id' => $this->integer()->notNull(),
-            'created_at'=>$this->integer()->notNull(),
+            'created_at'=>$this->string()->notNull(),
         ]);
     }
 

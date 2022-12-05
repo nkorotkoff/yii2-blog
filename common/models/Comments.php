@@ -4,7 +4,9 @@
 namespace common\models;
 
 
-class Comments
+use yii\db\ActiveRecord;
+
+class Comments extends ActiveRecord
 {
     public static function tableName()
     {
@@ -17,5 +19,10 @@ class Comments
             [['text'],'string','max'=>300],
             ['name','string','max'=>150]
         ];
+    }
+    public function addComment($id){
+        $this->post_id = $id;
+        $this->created_at = date("F j, Y, g:i a");
+       return self::save();
     }
 }

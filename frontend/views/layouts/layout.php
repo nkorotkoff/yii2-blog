@@ -17,6 +17,7 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <?php $this->head() ?>
     <link rel="icon" href="img/Fevicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -102,7 +103,7 @@ AppAsset::register($this);
                         </div>
 
                         <div class="single-sidebar-widget popular-post-widget">
-                            <h4 class="single-sidebar-widget__title">Popular Post</h4>
+                            <h4 class="single-sidebar-widget__title">Popular Posts</h4>
                             <div class="popular-post-list">
                                 <div class="single-post-list">
                                     <div class="thumb">
@@ -151,35 +152,7 @@ AppAsset::register($this);
                             </div>
                         </div>
 
-                        <div class="single-sidebar-widget tag_cloud_widget">
-                            <h4 class="single-sidebar-widget__title">Popular Tags</h4>
-                            <ul class="list">
-                                <li>
-                                    <a href="#">project</a>
-                                </li>
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">software</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>

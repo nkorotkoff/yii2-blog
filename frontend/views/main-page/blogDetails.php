@@ -48,8 +48,8 @@ AppAsset::register($this);
                     </div>
                         <p><?= $post->text?></p>
                     <div class="news_d_footer flex-column flex-sm-row">
-                        <a style="margin-right: 10px; text-decoration:none;" href="#"><span class="align-middle mr-2"><i class="ti-heart"></i></span>Number of likes</a>
-                        <a style="text-decoration:none;" class="justify-content-sm-center ml-sm-auto mt-sm-0 mt-2" href="#"><span class="align-middle mr-2"><i class="ti-themify-favicon"></i></span>06 Comments</a>
+                        <div style="margin-right: 10px; text-decoration:none;" ><span class="align-middle mr-2"><i style="margin-right: 5px; cursor:pointer;" class="<?= $post->checkLike()?> fa-heart heart"></i></span><span class="likes" ><?= $post->likes?></span></div>
+                        <div style="text-decoration:none;" class="justify-content-sm-center ml-sm-auto mt-sm-0 mt-2" ><span class="align-middle mr-2"><i style="margin-right: 5px" class="ti-themify-favicon"></i></span><?= $post->getComments()->count() ?> Comments</div>
                     </div>
                 </div>
 
@@ -58,104 +58,31 @@ AppAsset::register($this);
 
 
                 <div class="comments-area">
-                    <h4>05 Comments</h4>
-                    <div class="comment-list">
+                    <h4><?= $post->getComments()->count() ?> Comments</h4>
+                    <?php foreach ($post->comments as $comment): ?>
+                    <div class="comment-list" style="padding-bottom: 20px;">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
 
                                 <div class="desc">
-                                    <h5><a href="#">Emilly Blunt</a></h5>
-                                    <p class="date">December 4, 2017 at 3:12 pm </p>
+                                    <h5><?=$comment->name ?></h5>
+                                    <p class="date"><?= $comment->created_at ?></p>
                                     <p class="comment">
-                                        Never say goodbye till the end comes!
+                                        <?= $comment->text ?>
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="comment-list left-padding">
-                        <div class="single-comment justify-content-between d-flex">
-                            <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="img/blog/c2.jpg" alt="">
-                                </div>
-                                <div class="desc">
-                                    <h5><a href="#">Elsie Cunningham</a></h5>
-                                    <p class="date">December 4, 2017 at 3:12 pm </p>
-                                    <p class="comment">
-                                        Never say goodbye till the end comes!
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="reply-btn">
-                                <a href="" class="btn-reply text-uppercase">reply</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-list left-padding">
-                        <div class="single-comment justify-content-between d-flex">
-                            <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="img/blog/c3.jpg" alt="">
-                                </div>
-                                <div class="desc">
-                                    <h5><a href="#">Annie Stephens</a></h5>
-                                    <p class="date">December 4, 2017 at 3:12 pm </p>
-                                    <p class="comment">
-                                        Never say goodbye till the end comes!
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="reply-btn">
-                                <a href="" class="btn-reply text-uppercase">reply</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-list">
-                        <div class="single-comment justify-content-between d-flex">
-                            <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="img/blog/c4.jpg" alt="">
-                                </div>
-                                <div class="desc">
-                                    <h5><a href="#">Maria Luna</a></h5>
-                                    <p class="date">December 4, 2017 at 3:12 pm </p>
-                                    <p class="comment">
-                                        Never say goodbye till the end comes!
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="reply-btn">
-                                <a href="" class="btn-reply text-uppercase">reply</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="comment-list">
-                        <div class="single-comment justify-content-between d-flex">
-                            <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="img/blog/c5.jpg" alt="">
-                                </div>
-                                <div class="desc">
-                                    <h5><a href="#">Ina Hayes</a></h5>
-                                    <p class="date">December 4, 2017 at 3:12 pm </p>
-                                    <p class="comment">
-                                        Never say goodbye till the end comes!
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="reply-btn">
-                                <a href="" class="btn-reply text-uppercase">reply</a>
-                            </div>
-                        </div>
-                    </div>
+                    <?php  endforeach;?>
+
                 </div>
                 <div class="comment-form">
                     <h4>Leave a Reply</h4>
-                    <?php $form = \yii\widgets\ActiveForm::begin() ?>
+                    <?php $form = \yii\widgets\ActiveForm::begin(['action'=>['main-page/comment','id'=>$post->id]]) ?>
                         <div class="form-group form-inline">
                             <div class="form-group col-lg-6 col-md-6 name mb-3">
-                                <input type="text" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
+                                <input type="text" name="comment[name]" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
                             </div>
                             <div class="form-group col-lg-6 col-md-6 email">
 
@@ -165,9 +92,9 @@ AppAsset::register($this);
 
                         </div>
                         <div class="form-group mb-3">
-                            <textarea class="form-control mb-10" rows="5" name="message" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
+                            <textarea class="form-control mb-10" rows="5" name="comment[text]" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
                         </div>
-                        <a href="#" class="button submit_btn">Post Comment</a>
+                        <button type="submit" href="#" class="button submit_btn">Post Comment</button>
                     <?php \yii\widgets\ActiveForm::end()?>
                 </div>
             </div>
@@ -177,3 +104,40 @@ AppAsset::register($this);
         <!-- End Blog Post Siddebar -->
     </div>
 </div>
+
+<script>
+    $item = document.querySelector('.heart');
+    let likes = document.querySelector('.likes')
+    // console.log(likes.textContent =parseInt(likes.textContent) +1 )
+    $item.addEventListener('click',function (){
+        if($item.classList.contains('fa-solid')){
+            $item.classList.remove('fa-solid')
+            $item.classList.add('fa-regular')
+            likes.textContent = parseInt(likes.textContent) -1;
+            $.ajax({
+                url: '<?php echo \Yii::$app->getUrlManager()->createUrl(['main-page/like','id'=>$post->id]) ?>',
+                type: 'POST',
+
+                success: function(data) {
+
+
+                }
+            });
+
+        }else{
+        $.ajax({
+            url: '<?php echo \Yii::$app->getUrlManager()->createUrl(['main-page/like','id'=>$post->id]) ?>',
+            type: 'POST',
+
+            success: function(data) {
+
+
+            }
+        });
+            likes.textContent = parseInt(likes.textContent) +1;
+            $item.classList.remove('fa-regular')
+            $item.classList.add('fa-solid')
+        }
+
+    })
+</script>
