@@ -2,6 +2,8 @@
 
 use backend\assets\ImgAsset;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
+
 $frontend = ImgAsset::register($this);
 ?>
 <!--================Hero Banner start =================-->
@@ -26,6 +28,12 @@ $frontend = ImgAsset::register($this);
 <?php $this->endBlock();?>
 
 <div class="col-lg-8">
+    <?php if(isset($category)): ?>
+        <h2 class="text-center">Searching posts with<?= $category->title?> category</h2>
+        <?php endif ?>
+    <?php if(isset($hashtag)): ?>
+        <h2 class="text-center">Searching posts with <?= $hashtag->name?> tag</h2>
+    <?php endif ?>
     <?php foreach ($posts as $post):?>
     <div class="single-recent-blog-post">
         <div class="thumb">
@@ -40,38 +48,25 @@ $frontend = ImgAsset::register($this);
             <a href="<?=Url::toRoute(['main-page/post','id'=>$post->id]) ?>">
                 <h3><?=$post->title ?>.</h3>
             </a>
-            <p class="tag-list-inline">Tags: <?php foreach ($post->hashtags as $hashtag): ?><a href="#"><?=$hashtag->name ?></a> <?php endforeach;?></p>
-            <p><?= $post->subword()?></p>
+            <p class="tag-list-inline">Tags: <?php foreach ($post->hashtags as $hashtag): ?><a href="<?= Url::toRoute(['main-page/hashtags','id'=>$hashtag->id])?>"><?=$hashtag->name ?></a> <?php endforeach;?></p>
+            <p><?= $post->subword(700)?></p>
             <a class="button" href="<?=Url::toRoute(['main-page/post','id'=>$post->id]) ?>">Read More <i class="ti-arrow-right"></i></a>
         </div>
     </div>
     <?php endforeach; ?>
 
 
+        <?php if(isset($pages)):?>
+        <?=  \yii\bootstrap5\LinkPager::widget([
+                'pagination' => $pages,
+            'hideOnSinglePage' => true,
 
+        ])?>
+     <?php endif;?>
 
     <div class="row">
         <div class="col-lg-12">
-            <nav class="blog-pagination justify-content-center d-flex">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Previous">
-                                  <span aria-hidden="true">
-                                      <i class="ti-angle-left"></i>
-                                  </span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Next">
-                                  <span aria-hidden="true">
-                                      <i class="ti-angle-right"></i>
-                                  </span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+
         </div>
     </div>
 </div>

@@ -2,8 +2,11 @@
 
 
 $categories = $this->params['categories'];
+$posts = $this->params['posts'];
 use frontend\assets\AppAsset;
+use frontend\assets\ImgAsset;
 
+$frontend = ImgAsset::register($this);
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -93,7 +96,7 @@ AppAsset::register($this);
                             <ul class="cat-list mt-20">
                                 <?php foreach ($categories as $category): ?>
                                 <li>
-                                    <a href="#" class="d-flex justify-content-between">
+                                    <a href="<?= \yii\helpers\Url::toRoute(['main-page/show-category','id'=>$category->id])?>" class="d-flex justify-content-between">
                                         <p><?=$category->title?></p>
                                         <p>(<?= $category->getPosts()->count()?>)</p>
                                     </a>
@@ -105,50 +108,22 @@ AppAsset::register($this);
                         <div class="single-sidebar-widget popular-post-widget">
                             <h4 class="single-sidebar-widget__title">Popular Posts</h4>
                             <div class="popular-post-list">
+                                <?php foreach ($posts as $post):?>
                                 <div class="single-post-list">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0" src="img/blog/thumb/thumb1.png" alt="">
+                                        <img class="card-img rounded-0" src="<?=$frontend->baseUrl . '/' . $post->img?>" alt="">
                                         <ul class="thumb-info">
-                                            <li><a href="#">Adam Colinge</a></li>
-                                            <li><a href="#">Dec 15</a></li>
+                                            <li><?= $post->user->username ?></li>
+                                            <li><?= date("j F",strtotime($post->created_at)) ?></li>
                                         </ul>
                                     </div>
                                     <div class="details mt-20">
                                         <a href="blog-single.html">
-                                            <h6>Accused of assaulting flight attendant miktake alaways</h6>
+                                            <h6><?= $post->title?></h6>
                                         </a>
                                     </div>
                                 </div>
-                                <div class="single-post-list">
-                                    <div class="thumb">
-                                        <img class="card-img rounded-0" src="img/blog/thumb/thumb2.png" alt="">
-                                        <ul class="thumb-info">
-                                            <li><a href="#">Adam Colinge</a></li>
-                                            <li><a href="#">Dec 15</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="details mt-20">
-                                        <a href="blog-single.html">
-                                            <h6>Tennessee outback steakhouse the
-                                                worker diagnosed</h6>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="single-post-list">
-                                    <div class="thumb">
-                                        <img class="card-img rounded-0" src="img/blog/thumb/thumb3.png" alt="">
-                                        <ul class="thumb-info">
-                                            <li><a href="#">Adam Colinge</a></li>
-                                            <li><a href="#">Dec 15</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="details mt-20">
-                                        <a href="blog-single.html">
-                                            <h6>Tennessee outback steakhouse the
-                                                worker diagnosed</h6>
-                                        </a>
-                                    </div>
-                                </div>
+                                <?php endforeach;?>
                             </div>
                         </div>
 

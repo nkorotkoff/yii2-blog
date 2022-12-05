@@ -99,7 +99,7 @@ class Posts extends \yii\db\ActiveRecord
         $this->save();
     }
 
-   public function subword($l = 700)
+   public function subword($l)
     {
         $content = $this->text;
         if(strlen($content) > $l)

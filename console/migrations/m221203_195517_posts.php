@@ -38,7 +38,7 @@ class m221203_195517_posts extends Migration
             'created_at'=>$this->integer()->notNull(),
             'user_id'=>$this->integer()->notNull(),
             'views'=>$this->integer(),
-            'likes'=>$this->integer()
+            'likes'=>$this->integer()->defaultValue(0)
         ]);
     }
 
